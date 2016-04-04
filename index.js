@@ -5,6 +5,8 @@ var key = '';
 
 var bt = require('botkit');//botkit 使う
 
+var reg = / /;
+
 //tokenが空の場合
 if(key === ''){
     console.log('Error: Not token');
@@ -23,12 +25,33 @@ controller.spawn({
     }
 });//startRTMでbot起動
 
+//convo使う
+controller.hears(
+    'お話ししよう',
+    'direct_mention',
+    function(bot, message){
+        console.log(message);
+        bot.startConversation(
+            message,
+            function(err, convo){
+                console.log(convo);
+                convo.say('Hello!!');
+                convo.say('会話してやるぜ〜〜');
+            }
+        );
+    }
+);
+
+/*
 //event handlerはon()かhear(). どっちかに統一した方がいいかも
 //個人的にはhears. 何か「聴いてる」感が欲しい
-controller.on('bot_channel_join', function(bot, message){
+controller.hears('bot_channel_join', function(bot, message){
     return bot.reply(message, 'Thank you!');
 });
 
 controller.hears('hey you', ['direct_mention'], function(bot,message){
+    console.log(message);
+    //console.log(bot);
     return bot.reply(message, 'ｳｪｲｿｲﾔ');
 });
+*/
