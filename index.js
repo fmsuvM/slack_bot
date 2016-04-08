@@ -1,7 +1,7 @@
 //slack botokit using by Botkit & JavaScript
 
 //token
-var key = 'xoxb-31307312016-caph7L7wKlvgtuyl87wP3X6e';
+var key = '';
 
 var bt = require('botkit'); //botkit 使う
 
