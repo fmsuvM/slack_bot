@@ -1,14 +1,14 @@
 //slack botokit using by Botkit & JavaScript
 
 //token
-var key = '';
+var key = 'xoxb-31307312016-caph7L7wKlvgtuyl87wP3X6e';
 
-var bt = require('botkit');//botkit 使う
+var bt = require('botkit'); //botkit 使う
 
 var reg = / /;
 
 //tokenが空の場合
-if(key === ''){
+if (key === '') {
     console.log('Error: Not token');
     process.exit(1);
 }
@@ -19,32 +19,46 @@ var controller = bt.slackbot({
 
 controller.spawn({
     token: key //token設定
-}).startRTM(function(err){
-    if(err){//error処理
+}).startRTM(function(err) {
+    if (err) { //error処理
         throw new console.error(err);
     }
-});//startRTMでbot起動
+}); //startRTMでbot起動
 
 //convo使う
-controller.hears(
-    'お話ししよう',
-    'direct_mention',
-    function(bot, message){
-        console.log(message);
-        bot.startConversation(
-            message,
-            function(err, convo){
-                console.log(convo);
-                convo.say('Hello!!');
-                convo.say('会話してやるぜ〜〜');
-            }
-        );
-    }
-);
+controller.hears('How are you?', 'direct_mention', function(bot, message) {
+    console.log('hears message log');
+    //console.log(message); //出力
+    bot.startConversation(message, function(err, convo) {
+        console.log('conversation message log');
+        console.log(message); //出力 = 上のmessageと同じ
+        console.log('conversation convo log');
+        console.log(convo); //出力
+
+        convo.say('Hello!!');
+        convo.say('I\'m hungry.');
+
+        console.log('new bot log');
+        //上とは別物っぽい?
+        var message_with_attachments = {
+            'user name': 'tkd_bot',
+            'text': 'This message is test.',
+            'attachments': [{
+                'fallback': 'contents 1.',
+                'title': 'contents 2',
+                'text': ' contents 3',
+                'color': '#7CD197'
+            }],
+            'icon_url': 'http://lorempixel.com/48/48'
+        };
+
+        convo.say(message_with_attachments);
+
+
+    });
+});
 
 /*
-//event handlerはon()かhear(). どっちかに統一した方がいいかも
-//個人的にはhears. 何か「聴いてる」感が欲しい
 controller.hears('bot_channel_join', function(bot, message){
     return bot.reply(message, 'Thank you!');
 });
