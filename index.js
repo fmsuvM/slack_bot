@@ -1,11 +1,10 @@
 //slack botokit using by Botkit & JavaScript
 
 //token
-var key = '';
+var key = 'xoxb-31307312016-caph7L7wKlvgtuyl87wP3X6e';
 
 var bt = require('botkit'); //botkit 使う
-
-var reg = / /;
+var weather = require('weather-js');
 
 //tokenが空の場合
 if (key === '') {
@@ -28,11 +27,15 @@ controller.spawn({
 //functin形式にして実装. 引数増やすのありかも
 controller.hears('こんにちは', ['direct_mention', 'ambient'], function(bot, message) {
     bot.startConversation(message, qTime);
+    console.log('First Func message');
+    console.log(message);
 });
 
 var qTime = function(response, convo) {
     convo.say('こんにちは!!');
     convo.ask('今何をしていますか?', function(response, convo) {
+        console.log('Second Func response');
+        console.log(response);
         convo.say('なるほどなるほど');
         answerTime(response, convo);
         convo.next();
@@ -69,11 +72,10 @@ var lastQuestin = function(response, convo) {
         }
     }]);
 };
-
 //console.log('new bot log');
 //use_nameとfallback以外反応してる.
 //これの公式referenceよもう
-/*
+
 var message_with_attachments = {
     'user name': 'tkd_bot',
     'text': 'This message is test.',
@@ -85,6 +87,5 @@ var message_with_attachments = {
     }],
     'icon_url': 'http://lorempixel.com/48/48'
 };
-*/
 
 //convo.say(message_with_attachments);

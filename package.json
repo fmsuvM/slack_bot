@@ -9,6 +9,8 @@
   "author": "fmsuvM",
   "license": "MIT",
   "devDependencies": {
-    "botkit": "0.0.15"
+    "botkit": "0.0.15",
+    "google-spreadsheet": "^2.0.1",
+    "weather-js": "^1.0.2"
   }
 }
