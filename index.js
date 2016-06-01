@@ -1,13 +1,12 @@
 //slack botokit using by Botkit & JavaScript
 (function() {
-    var keyS = ''; //slack token
-    var keyY = ''; //youtube token
+    var keyS = 'xoxb-31307312016-caph7L7wKlvgtuyl87wP3X6e'; //slack token
+    var keyY = 'AIzaSyDMLDZrszREBDjPDSe3iMLgNWB33R2wBIc'; //youtube token
 
 
     var bt = require('botkit'); //using botkit
     var Youtube = require('youtube-node'); //using youtube-node
-    var weather = require('weather-js');
-
+    var open = require('open'); // using open
     //case slack token is empty.
     if (keyS === '') {
         console.log('Error: Not token');
@@ -33,6 +32,30 @@
 
     //alomost using [say] command.
     //using function. various talking
+
+    //search google scholor
+    controller.hears('論文読みたい', ['direct_mention', 'ambient'], function(bot, message) {
+        bot.startConversation(message, ron_boon);
+        console.log('論文読むぞ!!');
+    });
+
+    var ron_boon = function(response, convo) {
+        var word;
+        convo.say('論文か〜〜');
+        convo.ask('何読みたい?', function(response, convo) {
+            console.log('論文検索');
+            word = response.text;
+            convo.say('おk');
+            searchScholor(word);
+            convo.next();
+        });
+    };
+
+    var searchScholor = function(word) {
+        open('https://scholar.google.co.jp/scholar?q=' + word);
+    };
+
+    //search youtube
     controller.hears('動画見たい', ['direct_mention', 'ambient'], function(bot, message) {
         bot.startConversation(message, yFuncStarter);
         console.log('youtube search starting!!');
@@ -41,6 +64,7 @@
     var yFuncStarter = function(response, convo) {
         var word = 'anime';
         convo.say('動画か〜〜');
+        youtube.addParam('type', 'video');
         convo.ask('何が見たい?', function(response, convo) {
             console.log('First Question');
             console.log(response.text);
@@ -75,13 +99,13 @@
         }, {
             pattern: '人気',
             callback: function(response, convo) {
-                youtube.addParam('order', 'rating');
+                youtube.addParam('order', 'viewCount');
                 convo.say('ok');
                 searchingStart(response, convo, word, number);
                 convo.next();
             }
         }, {
-            default: true,
+            pattern: '何でも',
             callback: function(response, convo) {
                 convo.say('ok');
                 searchingStart(response, convo, word, number);
@@ -97,7 +121,9 @@
                 console.log(err);
                 return;
             }
+            console.log('result param');
             var items = result.items;
+            console.log(items);
             for (var i in items) {
                 var it = items[i];
                 var titles = it.snippet.title;
@@ -108,10 +134,10 @@
                 console.log('+ ' + titles);
                 console.log('|' + url);
                 console.log('---------yeah-------');
-                convo.next();
             }
         });
         //convo.say('debug');
+
 
     };
 

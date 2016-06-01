@@ -11,7 +11,9 @@
   "devDependencies": {
     "botkit": "0.0.15",
     "google-spreadsheet": "^2.0.1",
+    "open": "0.0.5",
     "weather-js": "^1.0.2",
+    "youtube-api": "^1.4.1",
     "youtube-node": "^1.3.0"
   }
 }
